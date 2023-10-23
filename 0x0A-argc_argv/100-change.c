@@ -1,31 +1,52 @@
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
- * print_triangle - prints a triangle, followed by a new line
- * @size: size of the triangle
+ * main - print the min number of coins to make change for an amount of money
+ * @argc: argument count
+ * @argv: argument vector, array of strings
+ * Return: 1 if error, 0 otherwise
  */
-void print_triangle(int size)
+
+int main(int argc, char *argv[])
 {
-	if (size <= 0)
+	int total, count;
+	unsigned int i;
+	char *p;
+	int cents[] = {25, 10, 5, 2};
+
+	if (argc != 2)
 	{
-		_putchar('\n');
-	} else
-	{
-		int i, j;
-
-		for (i = 1; i <= size; i++)
-		{
-			for (j = i; j < size; j++)
-			{
-				_putchar(' ');
-			}
-
-			for (j = 1; j <= i; j++)
-			{
-				_putchar('#');
-			}
-
-			_putchar('\n');
-		}
+		printf("Error\n");
+		return (1);
 	}
+
+	total = strtol(argv[1], &p, 10);
+	count = 0;
+
+	if (!*p)
+	{
+		while (total > 1)
+		{
+			for (i = 0; i < sizeof(cents[i]); i++)
+			{
+				if (total >= cents[i])
+				{
+					count += total / cents[i];
+					total = total % cents[i];
+				}
+			}
+		}
+		if (total == 1)
+			count++;
+	}
+	else
+	{
+		printf("Error\n");
+		return (1);
+	}
+
+	printf("%d\n", count);
+	return (0);
 }
